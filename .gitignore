@@ -1,3 +1,4 @@
-audio_data
+audio_data1
+spectrograms
 *.xml
 __init__.py
