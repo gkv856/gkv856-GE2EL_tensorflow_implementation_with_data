@@ -27,38 +27,31 @@ def create_model(inp_shape, m_name="model"):
 
 
 @tf.function
-def training_step(model, inputs):
-    w = Variable(10, name="w")
-    b = Variable(-5, name="b")
-
-    with tf.GradientTape(persistent=True) as tape:
-        model_outputs = model(inputs)
-        embedded = model_outputs[-1]  # the last ouput is the embedded d-vector
-        norm_embedded = normalize(embedded)
-
-        sim_matrix = calc_similarity(norm_embedded, w, b)
-        print("similarity matrix size: ", sim_matrix.shape)
-        loss = calculate_loss(sim_matrix, type=config["loss"])
-
-        m_gradients = tape.gradient(loss, model.trainable_variables)
-
-        model_optimizer.apply_gradients(zip(m_gradients, model.trainable_variables))
-
-
 def fit_train_model(model, epochs=10):
     w = Variable(10, name="w")
     b = Variable(-5, name="b")
 
     for epoch in range(epochs):
         inputs = random_batch()
-        training_step(model, inputs)
+        print(f"Input shape = {inputs.shape}")
 
         with tf.GradientTape(persistent=True) as tape:
             model_outputs = model(inputs)
-            embedded = model_outputs[-1]  # the last ouput is the embedded d-vector
-            norm_embedded = normalize(embedded)
+            print(f"model output shape = {model_outputs[0].shape}")
+            out = model_outputs[0]
+            print(out.shape, type(out))
+            # embedded = model_outputs[-1]  # the last ouput is the embedded d-vector
+            # norm_embedded = normalize(embedded)
+            N = out.shape[1]
+            M = out.shape[2]
+            P = out.shape[0]
+            # reshaped_lstm_embedding = tf.reshape(out, shape=[out.shape[1], out.shape[2], out.shape[0]])
 
-            sim_matrix = calc_similarity(norm_embedded, w, b)
+            reshaped_lstm_embedding = tf.reshape(out, shape=[N, M, P])
+            print(reshaped_lstm_embedding.shape)
+
+            sim_matrix = calc_similarity(out, w, b, N, M, P)
+
             print("similarity matrix size: ", sim_matrix.shape)
             loss = calculate_loss(sim_matrix, type=config["loss"])
 

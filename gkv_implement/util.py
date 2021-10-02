@@ -36,7 +36,6 @@ def random_batch(speaker_num=config["speaker_num"],
     else:
         path = config["test_path"]
 
-
     # TI-SV
     np_file_list = os.listdir(path)
     total_speaker = len(np_file_list)
@@ -112,35 +111,34 @@ def calc_cos_similarity(x, y, is_normalized=True):
 
 
 def calc_similarity(embedded, w, b, N=config["speaker_num"], M=config["utter_num"],
-               P=config["embed_dim"], centroid_with_m_utter=None):
+                    P=config["embed_dim"], centroid_with_m_utter=None):
     """ Calculate similarity matrix from embedded utterance batch (NM x embed_dim) eq. (9)
         Input center to test enrollment. (embedded for verification)
     :return: tf similarity matrix (NM x N)
     """
     reshaped_lstm_embedding = tf.reshape(embedded, shape=[N, M, P])
     # print(f"reshaped embedding {reshaped_lstm_embedding} \n and shape={reshaped_lstm_embedding.shape}")
-    if centroid_with_m_utter is None:
-        # [N, P] normalized centroid vectors eq.(1)
-        # trying to find the centroid point for a speaker by taking the average
-        # ck = Em[ekm] = 1/M for each m in M calc ekm. eq. (1)
+    # [N, P] normalized centroid vectors eq.(1)
+    # trying to find the centroid point for a speaker by taking the average
+    # ck = Em[ekm] = 1/M for each m in M calc ekm. eq. (1)
 
-        # For each input tuple, we compute the L2 normalized response
-        # of the LSTM: {ej∼, (ek1, . . . , ekM )}. Here each e is an
-        # embedding vector of ﬁxed dimension that results from the
-        # sequence-to-vector mapping deﬁned by the LSTM.
-        # The centroid of tuple (ek1, . . . , ekM ) represents the voiceprint
-        # built from M utterances, and is deﬁned as follows:
-        # ck = Em[ekm] = 1/M for each m in M calc ekm.
+    # For each input tuple, we compute the L2 normalized response
+    # of the LSTM: {ej∼, (ek1, . . . , ekM )}. Here each e is an
+    # embedding vector of ﬁxed dimension that results from the
+    # sequence-to-vector mapping deﬁned by the LSTM.
+    # The centroid of tuple (ek1, . . . , ekM ) represents the voiceprint
+    # built from M utterances, and is deﬁned as follows:
+    # ck = Em[ekm] = 1/M for each m in M calc ekm.
 
-        # calculating centroid of all the utterances  as per eq. (1)
-        eq1 = tf.reduce_mean(reshaped_lstm_embedding, axis=1)
-        # print(f"eq1 = {eq1}")
-        centroid_for_neg_similarity = normalize(eq1)
-        # print(f"eq1 normalized = {centroid_for_neg_similarity}")
-        # calculating centroid of true speaker eq. (8)
-        tf_re_sum = tf.reduce_sum(reshaped_lstm_embedding, axis=1, keepdims=True)
-        eq8 = tf.reshape(tf_re_sum - reshaped_lstm_embedding, shape=[N * M, P])
-        centroid_for_true_similarity = normalize(eq8)
+    # calculating centroid of all the utterances  as per eq. (1)
+    eq1 = tf.reduce_mean(reshaped_lstm_embedding, axis=1)
+    # print(f"eq1 = {eq1}")
+    centroid_for_neg_similarity = normalize(eq1)
+    # print(f"eq1 normalized = {centroid_for_neg_similarity}")
+    # calculating centroid of true speaker eq. (8)
+    tf_re_sum = tf.reduce_sum(reshaped_lstm_embedding, axis=1, keepdims=True)
+    eq8 = tf.reshape(tf_re_sum - reshaped_lstm_embedding, shape=[N * M, P])
+    centroid_for_true_similarity = normalize(eq8)
 
     # print("centroid_for_true_similarity", centroid_for_true_similarity)
     # print("centroid_for_neg_similarity", centroid_for_neg_similarity)
@@ -172,13 +170,6 @@ def calc_similarity(embedded, w, b, N=config["speaker_num"], M=config["utter_num
         final_lst.append(concated_lst)
 
     S = tf.concat(final_lst, axis=0)
-
-    # nested loop single line implementation of the same
-    # S = tf.concat(
-    # [tf.concat([tf.reduce_sum(center_except[i*M:(i+1)*M,:]*embedded_split[j,:,:], axis=1, keepdims=True) if i==j
-    #             else tf.reduce_sum(center[i:(i+1),:]*embedded_split[j,:,:], axis=1, keepdims=True) for i in range(N)],
-    #             axis=1) for j in range(N)], axis=0)
-
     # eq. (10)
     S = tf.abs(w) * S + b
 
@@ -193,8 +184,8 @@ def get_optimizer(optimizer_name="sgd", lr=0.0001):
         return tf.keras.optimizers.SGD(lr)
     elif optimizer_name == "adam":
         return tf.keras.optimizers.Adam(lr,
-                                      beta1=config["beta1"],
-                                      beta2=config["beta2"])
+                                        beta1=config["beta1"],
+                                        beta2=config["beta2"])
     else:
         raise AssertionError("Wrong optimizer type!")
 
