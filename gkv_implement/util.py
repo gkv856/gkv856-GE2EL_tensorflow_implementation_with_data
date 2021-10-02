@@ -185,23 +185,21 @@ def calc_similarity(embedded, w, b, N=config["speaker_num"], M=config["utter_num
     return S
 
 
-def optim(lr):
+def get_optimizer(optimizer_name="sgd", lr=0.0001):
     """ return optimizer determined by configuration
     :return: tf optimizer
     """
-    if config["optim"] == "sgd":
-        return tf.train.GradientDescentOptimizer(lr)
-    elif config["optim"] == "rmsprop":
-        return tf.train.RMSPropOptimizer(lr)
-    elif config["optim"] == "adam":
-        return tf.train.AdamOptimizer(lr,
+    if optimizer_name == "sgd":
+        return tf.keras.optimizers.SGD(lr)
+    elif optimizer_name == "adam":
+        return tf.keras.optimizers.Adam(lr,
                                       beta1=config["beta1"],
                                       beta2=config["beta2"])
     else:
         raise AssertionError("Wrong optimizer type!")
 
 
-def loss_cal(S, type="softmax", N=config["speaker_num"], M=config["utter_num"]):
+def calculate_loss(S, type="softmax", N=config["speaker_num"], M=config["utter_num"]):
     """ calculate loss with similarity matrix(S) eq.(6) (7)
     :type: "softmax" or "contrast"
     :return: loss
