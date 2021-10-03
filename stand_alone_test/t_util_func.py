@@ -20,8 +20,8 @@ print(sim_matrix)
 
 
 #testing the loss functions
-loss1 = loss_cal(sim_matrix, type="softmax", N=3, M=2)
-loss2 = loss_cal(sim_matrix, type="contrast", N=3, M=2)
+loss1 = calculate_loss(sim_matrix, type="softmax", N=3, M=2)
+loss2 = calculate_loss(sim_matrix, type="contrast", N=3, M=2)
 
 print(loss1)
 print(loss2)

@@ -1,7 +1,7 @@
 import os
 import librosa
 import numpy as np
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 import tensorflow as tf
 import random
 from string_constants.configuration_file import config
@@ -111,7 +111,7 @@ def calc_cos_similarity(x, y, is_normalized=True):
 
 
 def calc_similarity(embedded, w, b, N=config["speaker_num"], M=config["utter_num"],
-                    P=config["embed_dim"], centroid_with_m_utter=None):
+                    P=config["embed_dim"]):
     """ Calculate similarity matrix from embedded utterance batch (NM x embed_dim) eq. (9)
         Input center to test enrollment. (embedded for verification)
     :return: tf similarity matrix (NM x N)
@@ -190,15 +190,21 @@ def get_optimizer(optimizer_name="sgd", lr=0.0001):
         raise AssertionError("Wrong optimizer type!")
 
 
-def calculate_loss(S, type="softmax", N=config["speaker_num"], M=config["utter_num"]):
+def calculate_loss(S, N, M, type="softmax"):
     """ calculate loss with similarity matrix(S) eq.(6) (7)
-    :type: "softmax" or "contrast"
+        We put a softmax on Sji,k for k = 1, . . . , N that
+        makes the output equal to 1 iff k = j, otherwise makes the out-
+        put equal to 0. Thus, the loss on each embedding vector eji could
+        be deﬁned as:
+    Args:
+        S: similarity matrix
+        N: Number of speakers
+        M: Number of utterance per speaker
+        type: type of loss to use. For TI-SV use softmax for TD-SV use contrast
+
     :return: loss
 
-      # We put a softmax on Sji,k for k = 1, . . . , N that
-      # makes the output equal to 1 iff k = j, otherwise makes the out-
-      # put equal to 0. Thus, the loss on each embedding vector eji could
-      # be deﬁned as:
+
     """
 
     # colored entries in Fig.1
