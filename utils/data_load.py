@@ -7,7 +7,7 @@ from config.hyper_parameters import hyper_paramaters as hp
 from torch.utils.data import Dataset
 
 
-class Speaker_Dataset_Preprocessed(Dataset):
+class SpeakerDatasetPreprocessed(Dataset):
 
     def __init__(self, shuffle=True, utter_start=0):
 

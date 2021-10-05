@@ -17,7 +17,7 @@ import librosa
 import numpy as np
 import torch
 
-from model.speech_embedder_net import Speech_Embedder
+from model.model_def import Speech_Embedder
 from config.hyper_parameters import hyper_paramaters as hp
 from utils.VAD_segments import VAD_chunk
 

@@ -14,9 +14,9 @@ def get_hyper_parameters():
         "train_spectrogram_path": "C:\\gkv\\My Stuff\\ML_AI\\GE2EL_tf\\audio_data\\spectrograms\\train",
         "test_spectrogram_path": "C:\\gkv\\My Stuff\\ML_AI\GE2EL_tf\\audio_data\\spectrograms\\test",
         # Model path for testing, inference, or resuming training
-        "model_path": "C:\\gkv\\My Stuff\\ML_AI\\GE2EL_tf\\pt_sv\\static\\pre_trained_models\\",
-        "log_file": "C:\\gkv\\My Stuff\\ML_AI\\GE2EL_tf\\pt_sv\\static\\logs\\log.txt",
-        "checkpoint_dir": "C:\\gkv\\My Stuff\\ML_AI\\GE2EL_tf\\pt_sv\\static\\chk_pts\\",
+        "model_path": "C:\\gkv\\My Stuff\\ML_AI\\GE2EL_tf\\static\\pre_trained_models\\",
+        "log_file": "C:\\gkv\\My Stuff\\ML_AI\\GE2EL_tf\\static\\logs\\log.txt",
+        "checkpoint_dir": "C:\\gkv\\My Stuff\\ML_AI\\GE2EL_tf\\static\\chk_pts\\",
 
         "is_data_preprocessed": True,
         "sr": 16000,
