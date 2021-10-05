@@ -1,0 +1,11 @@
+Tue Oct  5 21:05:19 2021	Epoch:1 [1/1], Iteration:1	Loss:24.2306	TLoss:24.2306	
+Tue Oct  5 21:06:44 2021	Epoch:2 [1/1], Iteration:2	Loss:23.2891	TLoss:23.2891	
+Tue Oct  5 21:07:42 2021	Epoch:3 [1/1], Iteration:3	Loss:23.2783	TLoss:23.2783	
+Tue Oct  5 21:07:56 2021	Epoch:4 [1/1], Iteration:4	Loss:25.9998	TLoss:25.9998	
+Tue Oct  5 21:08:07 2021	Epoch:5 [1/1], Iteration:5	Loss:27.5634	TLoss:27.5634	
+Tue Oct  5 21:08:16 2021	Epoch:6 [1/1], Iteration:6	Loss:26.9364	TLoss:26.9364	
+Tue Oct  5 21:08:26 2021	Epoch:7 [1/1], Iteration:7	Loss:26.7950	TLoss:26.7950	
+Tue Oct  5 21:08:36 2021	Epoch:8 [1/1], Iteration:8	Loss:24.3063	TLoss:24.3063	
+Tue Oct  5 21:08:46 2021	Epoch:9 [1/1], Iteration:9	Loss:20.5604	TLoss:20.5604	
+Tue Oct  5 21:08:56 2021	Epoch:10 [1/1], Iteration:10	Loss:27.8331	TLoss:27.8331	
+Tue Oct  5 21:09:06 2021	Epoch:11 [1/1], Iteration:11	Loss:21.9795	TLoss:21.9795	

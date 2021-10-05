@@ -2,4 +2,3 @@ audio_data
 spectrograms
 *.xml
 __init__.py
-saved_models
