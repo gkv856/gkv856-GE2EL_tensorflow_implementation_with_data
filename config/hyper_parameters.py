@@ -38,7 +38,7 @@ def get_hyper_parameters():
         "training_M": 5,  # Number of utterances per speaker
         "training_num_workers": 0,  # number of workers for dataloader
         "lr": 0.01,
-        "training_epochs": 950,  # Max training speaker epoch
+        "training_epochs": 4000,  # Max training speaker epoch
         "log_interval": 30,  # Epochs before printing progress
         "checkpoint_interval": 120,  # Save model after x speaker epochs
         "restore_existing_model": False,  # Resume training from previous model path

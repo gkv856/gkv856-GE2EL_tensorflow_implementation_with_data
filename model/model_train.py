@@ -1,5 +1,6 @@
 import os
 import random
+import time
 
 import numpy as np
 import torch
@@ -46,6 +47,7 @@ def train_model(model_path):
     losses = []
     total_utterances = hp.training_N * hp.training_M
     for e in range(hp.training_epochs):
+        epoch_st = time.time()
         batch_loss = []
         for mel_db_batch in train_loader:
 
@@ -86,11 +88,18 @@ def train_model(model_path):
         curr_loss = np.mean(batch_loss)
         # list of all the losses for each epoch
         losses.append(curr_loss)
-        msg = "Epoch:[{0}/{1}], \tLoss:{2:.4f}\t"
 
-        msg = msg.format(e + 1, hp.training_epochs, curr_loss)
+        # calc time elapsed
+        epoch_et = time.time()
+        hours, rem = divmod(epoch_et - epoch_st, 3600)
+        minutes, seconds = divmod(rem, 60)
+        time_msg = "{:0>2}:{:0>2}:{:0.0f}".format(int(hours), int(minutes), seconds)
 
+        msg = "Epoch:[{0}/{1}] \tLoss:{2:.4f}\t Time:{3}"
+
+        msg = msg.format(e + 1, hp.training_epochs, curr_loss, time_msg)
         print(msg)
+
         if (e + 1) % hp.log_interval == 0:
             if hp.log_file is not None:
                 with open(hp.log_file, 'a') as f:
